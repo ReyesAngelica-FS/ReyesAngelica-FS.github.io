@@ -2,12 +2,39 @@
 import { useEffect, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import { BookOpen, ExternalLink, LoaderCircle } from "lucide-react";
+import {
+    BookOpen,
+    ExternalLink,
+    LoaderCircle,
+} from "lucide-react";
 import { FaGithub } from "react-icons/fa";
 import "./GitHubProjects.css";
 
 const USERNAME = "ReyesAngelica-FS";
 const API = "https://api.github.com";
+
+// Only these three repositories will appear.
+// Names must match your GitHub repositories.
+const FEATURED_REPOS = [
+    {
+        name: "2606-WDV-Mod2-ReyesAngelica",
+        title: "🧵 StitchFlow Studio",
+        description:
+        "StitchFlow Studio is a multi-device embroidery production management system that demonstrates real-time communication across three connected interfaces using Socket.IO.",
+    },
+    {
+        name: "family-heritage-tree-demo",
+        title: "family-heritage-tree-demo",
+        description:
+        "An interactive family tree application for organizing family relationships and genealogy records.",
+    },
+    {
+        name: "2605-WDV359-ReyesAngelica",
+        title: "Final Web Development Assignment",
+        description:
+        "A final academic project demonstrating web development concepts, application development, and technical problem-solving.",
+    },
+];
 
 function GitHubProjects() {
     const [repos, setRepos] = useState([]);
@@ -18,11 +45,15 @@ function GitHubProjects() {
     const [error, setError] = useState("");
     const [readmeError, setReadmeError] = useState("");
 
+    // Retrieve public repositories from GitHub
     useEffect(() => {
         const controller = new AbortController();
 
         async function loadRepositories() {
         try {
+            setLoading(true);
+            setError("");
+
             const response = await fetch(
             `${API}/users/${USERNAME}/repos?per_page=100&sort=updated`,
             {
@@ -34,22 +65,42 @@ function GitHubProjects() {
             );
 
             if (!response.ok) {
-            throw new Error(`GitHub returned ${response.status}`);
+            throw new Error(
+                `GitHub returned ${response.status}`
+            );
             }
 
             const data = await response.json();
 
-            const filtered = data.filter(
-            (repo) =>
-                !repo.fork &&
-                repo.name.toLowerCase() !==
-                `${USERNAME.toLowerCase()}.github.io`
-            );
+            // Keep only the approved repositories,
+            // in the order listed above.
+            const filtered = FEATURED_REPOS
+            .map((featured) => {
+                const repo = data.find(
+                (item) =>
+                    item.name.toLowerCase() ===
+                    featured.name.toLowerCase()
+                );
 
+                if (!repo) return null;
+
+                return {
+                ...repo,
+                displayTitle: featured.title,
+                displayDescription:
+                    repo.description || featured.description,
+                };
+            })
+            .filter(Boolean);
+
+            if (!controller.signal.aborted) {
             setRepos(filtered);
+            }
         } catch (err) {
             if (err.name !== "AbortError") {
-            setError("Unable to load GitHub projects right now.");
+            setError(
+                "Unable to load GitHub projects right now."
+            );
             }
         } finally {
             if (!controller.signal.aborted) {
@@ -63,6 +114,7 @@ function GitHubProjects() {
         return () => controller.abort();
     }, []);
 
+    // Load a repository's README
     async function openReadme(repo) {
         setSelectedRepo(repo);
         setReadme("");
@@ -71,7 +123,9 @@ function GitHubProjects() {
 
         try {
         const response = await fetch(
-            `${API}/repos/${USERNAME}/${encodeURIComponent(repo.name)}/readme`,
+            `${API}/repos/${USERNAME}/${encodeURIComponent(
+            repo.name
+            )}/readme`,
             {
             headers: {
                 Accept: "application/vnd.github.raw+json",
@@ -80,61 +134,95 @@ function GitHubProjects() {
         );
 
         if (response.status === 404) {
-            setReadmeError("This repository does not have a README yet.");
+            setReadmeError(
+            "This repository does not have a README yet."
+            );
             return;
         }
 
         if (!response.ok) {
-            throw new Error(`GitHub returned ${response.status}`);
+            throw new Error(
+            `GitHub returned ${response.status}`
+            );
         }
 
         const content = await response.text();
         setReadme(content);
         } catch {
-        setReadmeError("Unable to load this README right now.");
+        setReadmeError(
+            "Unable to load this README right now."
+        );
         } finally {
         setReadmeLoading(false);
         }
     }
 
-    return (
-        <section className="github-projects" id="github-projects">
-        <p className="eyebrow">MY DEVELOPMENT WORK</p>
-        <h2>GitHub Projects</h2>
+    function closeReadme() {
+        setSelectedRepo(null);
+        setReadme("");
+        setReadmeError("");
+    }
 
-        <p className="github-intro">
-            Explore my public development repositories, review project
-            documentation, and access the source code.
+    return (
+        <section
+        className="github-projects"
+        id="github-projects"
+        >
+        <p className="eyebrow">
+            SELECTED DEVELOPMENT WORK
         </p>
 
+        <h2>Featured Projects</h2>
+
+        <p className="github-intro">
+            Explore selected projects showcasing my
+            experience in web development, application
+            design, and building practical digital
+            solutions. View the source code and project
+            documentation directly from GitHub.
+        </p>
+
+        {/* Loading message */}
         {loading && (
             <p className="github-status" role="status">
-            <LoaderCircle size={18} /> Loading projects...
+            <LoaderCircle size={18} />
+            Loading featured projects...
             </p>
         )}
 
-        {error && <p role="alert">{error}</p>}
-
-        {!loading && !error && repos.length === 0 && (
-            <p>No public projects are available to display.</p>
+        {/* Error message */}
+        {error && (
+            <p role="alert" className="github-status">
+            {error}
+            </p>
         )}
 
+        {/* No repositories found */}
+        {!loading && !error && repos.length === 0 && (
+            <p className="github-status">
+            No featured public repositories were found.
+            Please check the repository names.
+            </p>
+        )}
+
+        {/* Featured project cards */}
         <div className="github-grid">
             {repos.map((repo) => (
-            <article className="github-card" key={repo.id}>
+            <article
+                className="github-card"
+                key={repo.id}
+            >
                 <div className="github-card-top">
                 <FaGithub size={26} />
+
                 <span className="github-language">
                     {repo.language || "Project"}
                 </span>
                 </div>
 
-                <h3>{repo.name.replaceAll("-", " ")}</h3>
+                <h3>{repo.displayTitle}</h3>
 
-                <p>
-                {repo.description ||
-                    "Explore this repository to learn more about the project."}
-                </p>
+                <p>{repo.displayDescription}</p>
 
                 <div className="github-card-actions">
                 <button
@@ -158,21 +246,27 @@ function GitHubProjects() {
             ))}
         </div>
 
+        {/* README popup */}
         {selectedRepo && (
-            <div className="readme-overlay" onClick={() => setSelectedRepo(null)}>
+            <div
+            className="readme-overlay"
+            onClick={closeReadme}
+            >
             <div
                 className="readme-dialog"
                 role="dialog"
                 aria-modal="true"
                 aria-label={`${selectedRepo.name} README`}
-                onClick={(event) => event.stopPropagation()}
+                onClick={(event) =>
+                event.stopPropagation()
+                }
             >
                 <div className="readme-header">
-                <h3>{selectedRepo.name}</h3>
+                <h3>{selectedRepo.displayTitle}</h3>
 
                 <button
                     type="button"
-                    onClick={() => setSelectedRepo(null)}
+                    onClick={closeReadme}
                     aria-label="Close README"
                 >
                     Close
@@ -180,12 +274,18 @@ function GitHubProjects() {
                 </div>
 
                 <div className="readme-content">
-                {readmeLoading && <p>Loading README...</p>}
+                {readmeLoading && (
+                    <p>Loading README...</p>
+                )}
 
-                {readmeError && <p role="alert">{readmeError}</p>}
+                {readmeError && (
+                    <p role="alert">{readmeError}</p>
+                )}
 
                 {!readmeLoading && !readmeError && (
-                    <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                    <ReactMarkdown
+                    remarkPlugins={[remarkGfm]}
+                    >
                     {readme}
                     </ReactMarkdown>
                 )}

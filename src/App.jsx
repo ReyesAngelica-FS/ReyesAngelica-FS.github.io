@@ -8,7 +8,7 @@ import {
 } from "lucide-react";
 
 import { FaGithub } from "react-icons/fa";
-import GitHubProjects from "./components/GitHubProjects";
+import GitHubProjects from "./componets/GitHubProjects";
 
 import "./App.css";
 
