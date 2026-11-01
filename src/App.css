@@ -1,0 +1,391 @@
+
+/* =========================================
+   ANGELICA REYES — PROFESSIONAL PORTFOLIO
+   Burgundy | Champagne Gold | Ivory
+========================================= */
+
+:root {
+  font-family: Arial, Helvetica, sans-serif;
+  color: #332b2b;
+  background-color: #faf7f2;
+  font-synthesis: none;
+
+  --burgundy: #651b2b;
+  --burgundy-dark: #4b1320;
+  --gold: #a78242;
+  --cream: #fffaf5;
+  --ivory: #faf7f2;
+  --soft-beige: #f4ede5;
+  --text-dark: #332b2b;
+  --text-muted: #615858;
+  --border-color: #e5d8c5;
+}
+
+/* Global Reset */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  background-color: var(--ivory);
+  color: var(--text-dark);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+a {
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+/* =========================================
+   NAVIGATION
+========================================= */
+
+.site-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  padding: 24px 8%;
+  background-color: var(--cream);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.brand,
+h1,
+h2,
+h3 {
+  font-family: Georgia, "Times New Roman", serif;
+}
+
+.brand {
+  color: var(--burgundy);
+  font-size: 1.6rem;
+  font-weight: bold;
+}
+
+.site-header nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+
+.site-header nav a {
+  color: var(--text-dark);
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.site-header nav a:hover {
+  color: var(--gold);
+}
+
+/* =========================================
+   HERO SECTION
+========================================= */
+
+.hero {
+  text-align: center;
+  padding: 110px 8%;
+  background: linear-gradient(
+    135deg,
+    #fffaf5 0%,
+    #f0e6dc 100%
+  );
+}
+
+.eyebrow {
+  color: var(--gold);
+  font-size: 0.78rem;
+  font-weight: bold;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.hero h1 {
+  color: var(--burgundy);
+  font-size: clamp(3rem, 7vw, 5rem);
+  line-height: 1.15;
+  margin: 16px 0;
+}
+
+.hero-subtitle {
+  color: #815d47;
+  font-size: 1.1rem;
+  font-weight: bold;
+  line-height: 1.6;
+}
+
+.hero-description {
+  max-width: 750px;
+  margin: 24px auto;
+  color: var(--text-muted);
+  font-size: 1.05rem;
+  line-height: 1.8;
+}
+
+/* Hero Buttons */
+.hero-actions {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-top: 32px;
+}
+
+.primary-button,
+.secondary-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px 24px;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+.primary-button {
+  background-color: var(--burgundy);
+  color: white;
+}
+
+.primary-button:hover {
+  background-color: var(--burgundy-dark);
+  transform: translateY(-2px);
+}
+
+.secondary-button {
+  border: 1px solid var(--gold);
+  color: var(--burgundy);
+  background-color: transparent;
+}
+
+.secondary-button:hover {
+  background-color: var(--burgundy);
+  color: white;
+}
+
+/* =========================================
+   GENERAL CONTENT SECTIONS
+========================================= */
+
+.content-section {
+  padding: 80px 8%;
+  text-align: center;
+  background-color: var(--cream);
+  color: var(--text-dark);
+}
+
+.content-section h2 {
+  color: var(--burgundy);
+  font-size: clamp(2rem, 4vw, 2.7rem);
+  margin: 12px 0 24px;
+}
+
+.content-section .eyebrow {
+  color: var(--gold);
+}
+
+.content-section p {
+  color: var(--text-muted);
+}
+
+.section-intro {
+  max-width: 750px;
+  margin: 24px auto;
+  font-size: 1.05rem;
+  line-height: 1.8;
+}
+
+/* =========================================
+   PROJECTS SECTION
+========================================= */
+
+.projects-section {
+  background-color: var(--soft-beige);
+}
+
+.project-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  margin-top: 40px;
+}
+
+.project-card {
+  background-color: var(--cream);
+  border: 1px solid #e3d4c1;
+  border-radius: 12px;
+  padding: 32px 24px;
+  text-align: left;
+  box-shadow: 0 4px 16px rgba(70, 30, 35, 0.04);
+}
+
+.project-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 25px rgba(70, 30, 35, 0.1);
+}
+
+.project-card h3 {
+  color: var(--burgundy);
+  font-size: 1.5rem;
+  margin: 18px 0 12px;
+}
+
+.project-card p {
+  color: var(--text-muted);
+  line-height: 1.7;
+}
+
+.project-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background-color: var(--burgundy);
+  color: #d8b979;
+}
+
+/* =========================================
+   GITHUB PROJECTS SECTION
+========================================= */
+
+/*
+  The GitHub repository cards and README
+  viewer are styled separately in:
+
+  src/components/GitHubProjects.css
+
+  These rules maintain consistency with
+  the rest of your portfolio.
+*/
+
+.github-projects {
+  background-color: var(--cream);
+}
+
+.github-projects .eyebrow {
+  color: var(--gold);
+}
+
+.github-projects h2 {
+  color: var(--burgundy);
+}
+
+/* =========================================
+   CONTACT SECTION
+========================================= */
+
+.contact-section {
+  background-color: var(--soft-beige);
+}
+
+.contact-links {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 25px;
+  margin-top: 30px;
+}
+
+.contact-links a,
+.contact-links span {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--burgundy);
+  font-weight: 500;
+}
+
+.contact-links a:hover {
+  color: var(--gold);
+}
+
+/* =========================================
+   FOOTER
+========================================= */
+
+footer {
+  text-align: center;
+  background-color: var(--burgundy);
+  color: white;
+  padding: 25px;
+  font-size: 0.9rem;
+}
+
+/* =========================================
+   ACCESSIBILITY
+========================================= */
+
+a:focus-visible,
+button:focus-visible {
+  outline: 3px solid var(--gold);
+  outline-offset: 4px;
+}
+
+/* =========================================
+   RESPONSIVE DESIGN
+========================================= */
+
+@media (max-width: 900px) {
+  .project-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 750px) {
+  .site-header {
+    flex-direction: column;
+    text-align: center;
+    padding: 20px 6%;
+  }
+
+  .site-header nav {
+    justify-content: center;
+    gap: 18px;
+  }
+
+  .hero {
+    padding: 75px 6%;
+  }
+
+  .content-section {
+    padding: 60px 6%;
+  }
+
+  .project-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-links {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  button,
+  a,
+  .project-card {
+    transition: none;
+  }
+}
