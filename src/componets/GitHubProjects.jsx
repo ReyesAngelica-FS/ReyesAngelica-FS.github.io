@@ -24,7 +24,7 @@ const FEATURED_REPOS = [
     },
     {
         name: "family-heritage-tree-demo",
-        title: "family-heritage-tree-demo",
+        title: "Family Heritage Tree Demo",
         description:
         "An interactive family tree application for organizing family relationships and genealogy records.",
     },
