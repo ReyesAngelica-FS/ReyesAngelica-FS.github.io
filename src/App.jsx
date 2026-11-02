@@ -508,22 +508,23 @@ function App() {
             </span>
           </div>
 
-          <div className="contact-resume-actions">
+          <div className="resume-actions">
             <a
               className="primary-button"
               href={`${import.meta.env.BASE_URL}Angelica_Reyes_Resume_2026.pdf`}
               download
             >
-              <Download size={18} aria-hidden="true" />
+              <Download size={18} />
               Download Resume
             </a>
+
             <a
               className="secondary-button"
               href={`${import.meta.env.BASE_URL}Angelica_Reyes_Resume_2026.pdf`}
               target="_blank"
               rel="noopener noreferrer"
             >
-              <FileText size={18} aria-hidden="true" />
+              <FileText size={18} />
               View Resume
             </a>
           </div>
